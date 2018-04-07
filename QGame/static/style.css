@@ -1,0 +1,50 @@
+html, body
+{
+    height:100%
+}
+
+.mainContainer
+{
+    height:100%;
+}
+
+.mainContainer .row
+{
+    height:100%;
+}
+
+.leftPanel
+{
+    background-color: white;
+    border-left: 2px solid #343434;
+    height:100%;
+    padding:10px;
+}
+
+.leftPanel .panelBar
+{
+    width:100%;
+}
+
+.gameCanvas
+{
+    padding:10px;
+    background-color: cornflowerblue;
+    height:100%;
+}
+
+.cell
+{
+    background: white no-repeat;
+    border:1px solid #717171;
+    position: relative;
+    float: left;
+    color:#e1e1e1;
+    font-size: .5em;
+    background-size: cover;
+}
+
+.RowsStartCell
+{
+    clear:left;
+}
