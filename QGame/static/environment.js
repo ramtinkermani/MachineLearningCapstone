@@ -4,16 +4,16 @@
 
 gridConfig =
 {
-    width: 8,           // sq unit
-    height:8,           // sq unit
-    cellSize: 70,      // pixel
+    width: 12,           // sq unit
+    height:12,           // sq unit
+    cellSize: 100,      // pixel
     deadLine: 10        // agent's deadline in seconds
 }
 
 environmentConfig =
 {
-    numHazardCells: 3,
-    numTrashCells: 5
+    numHazardCells: 4,
+    numTrashCells: 3
 }
 
 images =
@@ -142,59 +142,62 @@ function RegisterEventListeners() {
        switch(e.key)
        {
            case "ArrowUp":
-               if(roombaLocation.i != 0 ) {
                    moveUp();
-               }
                break;
            case "ArrowDown":
-               if(roombaLocation.i != gridConfig.height - 1 ) {
                    moveDown();
-               }
                break;
            case "ArrowRight":
-               if(roombaLocation.j != gridConfig.width - 1 ) {
                    moveRight();
-               }
                break;
            case "ArrowLeft":
-               if(roombaLocation.j != 0) {
                    moveLeft();
-               }
                break;
            default:
                break;
        }
     });
+
+    $("#startExploreBtn").on("click", function(){
+        StartExploration();
+    });
 }
 
 
 function moveUp() {
-    SetCellBackground(roombaLocation.i, roombaLocation.j, "");
-    roombaLocation.i -= 1;
-    SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
-
-    evaluateMove();
+    if(roombaLocation.i != 0 ) {
+        SetCellBackground(roombaLocation.i, roombaLocation.j, "");
+        roombaLocation.i -= 1;
+        SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
+        evaluateMove();
+    }
 }
 
 function moveDown() {
-    SetCellBackground(roombaLocation.i, roombaLocation.j, "");
-    roombaLocation.i += 1;
-    SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
-    evaluateMove();
+    if(roombaLocation.i != gridConfig.height - 1 ) {
+        SetCellBackground(roombaLocation.i, roombaLocation.j, "");
+        roombaLocation.i += 1;
+        SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
+        evaluateMove();
+    }
 }
 
 function moveRight() {
-    SetCellBackground(roombaLocation.i, roombaLocation.j, "");
-    roombaLocation.j += 1;
-    SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
-    evaluateMove();
+    if(roombaLocation.j != gridConfig.width - 1 ) {
+        SetCellBackground(roombaLocation.i, roombaLocation.j, "");
+        roombaLocation.j += 1;
+        SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
+        evaluateMove();
+    }
 }
 
 function moveLeft() {
-    SetCellBackground(roombaLocation.i, roombaLocation.j, "");
-    roombaLocation.j -= 1;
-    SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
-    evaluateMove();
+    if(roombaLocation.j != 0) {
+        SetCellBackground(roombaLocation.i, roombaLocation.j, "");
+        roombaLocation.j -= 1;
+        SetCellBackground(roombaLocation.i, roombaLocation.j, images.roomba);
+        evaluateMove();
+    }
 }
 
 function evaluateMove() {
@@ -228,4 +231,29 @@ function evaluateMove() {
     });
 
     $("#scoreHolder").html(score);
+}
+
+var timer;
+
+function StartExploration()
+{
+    count = 0
+    if(timer != undefined)
+    {
+        clearTimeout(timer);
+        timer = undefined;
+    }
+    var legalMoves = [moveUp, moveDown, moveLeft, moveRight]
+     timer = setInterval(function(){
+
+        var nextMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
+        nextMove();
+        count++;
+        if(count == 1000) {
+            clearInterval(timer);
+            return;
+        }
+    }, 50);
+
+
 }
