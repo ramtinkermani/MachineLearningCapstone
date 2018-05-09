@@ -10,7 +10,7 @@ html, body
 
 .mainContainer .row
 {
-    height:100%;
+    /*height:100%;*/
 }
 
 .leftPanel
@@ -27,11 +27,11 @@ html, body
     width:100%;
 }
 
-.gameCanvas
+#gameCanvas
 {
     padding:10px;
     background-color: cornflowerblue;
-    height:100%;
+    height:70%;
 }
 
 .cell
@@ -52,10 +52,30 @@ html, body
 
 #startExploreBtn
 {
-    width: 45% !important;
+    width: 55% !important;
+}
+
+#startRandomBtn
+{
+    width: 55% !important;
 }
 
 #stopExploreBtn
 {
     width: 45% !important;
+}
+
+#episodeCount
+{
+    width: 40px;
+}
+
+#reportConsole
+{
+    background-color: black;
+    color: lawngreen;
+    height:300px;
+    font-size: 70%;
+    font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace;
+    overflow: scroll;
 }
