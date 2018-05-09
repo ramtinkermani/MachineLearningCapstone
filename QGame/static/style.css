@@ -19,12 +19,18 @@ html, body
     border-left: 2px solid #343434;
     height:100%;
     padding:10px;
-    text-align: center;
+    text-align: left;
 }
 
 .leftPanel .panelBar
 {
     width:100%;
+}
+
+.leftPanel .btn
+{
+    width: 100%;
+    margin-bottom:10px;
 }
 
 #gameCanvas
@@ -57,6 +63,7 @@ html, body
 
 #startRandomBtn
 {
+
     width: 55% !important;
 }
 
@@ -67,7 +74,7 @@ html, body
 
 #episodeCount
 {
-    width: 40px;
+    width: 60px;
 }
 
 #reportConsole

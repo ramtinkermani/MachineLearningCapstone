@@ -10,28 +10,29 @@
     <script src="../static/environment.js"></script>
 </head>
 <body>
+
     <div class="container-fluid mainContainer">
         <div class="row">
+
             <div class="col-3 leftPanel">
                 <div class="btn btn-primary panelBar">
                       Episode Score <span class="badge badge-light" id="scoreHolder">0</span>
                 </div>
-                <br><br>
-{#                <div class="alert panelBar" id="resultHolder">#}
-{#                </div>#}
 
-                <button class="btn btn-success" id="startRandomBtn">Start Random Worker</button>
-                <input type="text" id="episodeCount" value="1000"> times
-                <button class="btn btn-danger" id="stopRandomBtn">Stop Random Worker</button>
+
+                <button class="btn btn-success" id="startRandomBtn">Start Exploration for </button>
+                <input type="number" id="episodeCount" value="1000"> times
+{#                <button class="btn btn-danger" id="stopRandomBtn">Stop Random Worker</button>#}
 {#                <button class="btn btn-success" id="stopExploreBtn">Interrupt</button>#}
-                <br><br>
-                <button class="btn btn-success" id="startExploreBtn">Start Exploration</button>
-                <input type="text" id="episodeCount" value="1"> times
 
-                <br><br>
+
+{#                <button class="btn btn-success" id="startExploreBtn">Start Exploration</button>#}
+{#                <input type="text" id="episodeCount" value="1"> times#}
+
+
                 <button class="btn btn-success" id="showQtableBtn">Show Q-Table</button>
 
-                <button class="btn btn-success" id="playFuckBtn">Play the Fuck out of it!</button>
+                <button class="btn btn-success" id="playFuckBtn">Start Exploitation</button>
             </div>
 
             <div class="col-9">

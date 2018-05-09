@@ -94,6 +94,20 @@ function SetCellBackground(i, j, imageUrl) {
 }
 
 function InitializeCells() {
+    hazardCells.forEach(function(cell)
+    {
+        SetCellBackground(cell.i, cell.j, "");
+    });
+
+    trashCells.forEach(function(cell)
+    {
+        SetCellBackground(cell.i, cell.j, "");
+    });
+
+    SetCellBackground(roombaLocation.i, roombaLocation.j, "");
+
+    hazardCells = []
+    trashCells = []
 
     // Initialize the random location of Roomba
     roombaLocation.i = Math.floor(Math.random() * gridConfig.height);
@@ -126,54 +140,23 @@ function InitializeCells() {
     }
 }
 
-function InitializeQTable() {
-    // Nothing, Fire, Trash (Burn, Break and Crash you freak! ;P)
-    var stateItems = ['N', 'F', 'T', 'W'];
-
-    // "UP_Value Right_Value Down_Value Left_Value"
-    var state = "";
-
-    QTable = {}
-
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++) {
-            for (k = 0; k < 4; k++) {
-                for (l = 0; l < 4; l++) {
-                    state = stateItems[i] + stateItems[j] + stateItems[k] + stateItems[l];
-
-                    QTable[state] = {}
-                    QTable[state]['moveUp'] = 0.0
-                    QTable[state]['moveRight'] = 0.0
-                    QTable[state]['moveDown'] = 0.0
-                    QTable[state]['moveLeft'] = 0.0
-                }
-            }
-        }
-    }
-}
-
 function evaluateMove(action){
-    // Console.writeLine("Roomba: " + JSON.stringify(roombaLocation));
-    // Console.writeLine("Trash: " + JSON.stringify(trashCells));
-    // Console.writeLine("Fire: " + JSON.stringify(hazardCells));
-
-    // Get the current state before applying the move
-    // var currentState = getCurrentState();
 
     var immediateScore = rewards.anyMoveReward;
 
     trashCells.forEach(function(cell, index){
+       // If the Roomba ends up on a trash cell after the move:
        if(cell.i == roombaLocation.i && cell.j == roombaLocation.j)
        {
            immediateScore = rewards.dirtReward;
+           // Keep track of all the collected Trash cells so we know when the game ends
            rewardedCells++;
 
            trashCells.splice(index, 1);
+
            // If all trash is collected, then agent has WON!
            if(trashCells.length == 0)
            {
-               // $("#resultHolder").html("YOU WON! :)");
-               // $("#resultHolder").addClass("alert-success")
             stopEpisode();
             clearInterval(timer);
                if($("#episodeCount").val() != 0){
@@ -187,65 +170,38 @@ function evaluateMove(action){
 
 
     hazardCells.forEach(function(cell, index){
+       // If the Roomba ends up on a fire cell after the move:
        if(cell.i == roombaLocation.i && cell.j == roombaLocation.j)
        {
            immediateScore = rewards.fireReward;
            rewardedCells++;
 
            hazardCells.splice(index, 1);
-           // $("#resultHolder").html("YOU LOST! :(");
-           // $("#resultHolder").addClass("alert-danger");
            return;
        }
     });
 
     var newState = getCurrentState();
 
-    //Console.writeLine(previousState + "&nbsp;&nbsp;&nbsp; Action: " + action + "&nbsp;&nbsp;&nbsp; Reward: " + immediateScore + "&nbsp;&nbsp;NewState: " + newState);
-    updateQTable(previousState, newState, action, immediateScore);
-    score += immediateScore;
+    Console.writeLine(previousState + "&nbsp;&nbsp;&nbsp; Action: " + action + "&nbsp;&nbsp;&nbsp; Reward: " + immediateScore + "&nbsp;&nbsp;NewState: " + newState);
 
-    $("#scoreHolder").html(score);
+    updateQTable(previousState, newState, action, immediateScore);
+
+    updateScoreboard(score + immediateScore);
+}
+
+function updateScoreboard(s)
+{
+    score = s;
+    $("#scoreHolder").html(s);
 }
 
 function RestartEpisode()
 {
+    InitializeCells();
+    updateScoreboard(-10);
     // TODO: Re-implement ....
 }
-
-function evaluateMove000() {
-
-    trashCells.forEach(function(cell, index){
-       if(cell.i == roombaLocation.i && cell.j == roombaLocation.j)
-       {
-           score++;
-           trashCells.splice(index, 1);
-
-           // If all trash is collected, then agent has WON!
-           if(trashCells.length == 0)
-           {
-               $("#resultHolder").html("YOU WON! :)");
-               $("#resultHolder").addClass("alert-success");
-           }
-           return;
-       }
-    });
-
-
-    hazardCells.forEach(function(cell, index){
-       if(cell.i == roombaLocation.i && cell.j == roombaLocation.j)
-       {
-           score = 0;
-           hazardCells.splice(index, 1);
-           $("#resultHolder").html("YOU LOST! :(");
-           $("#resultHolder").addClass("alert-danger");
-           return;
-       }
-    });
-
-    $("#scoreHolder").html(score);
-}
-
 
 // Makes sure the new random position is not already occupied
 function IsValidLocation(i, j) {
@@ -279,20 +235,23 @@ function IsValidLocation(i, j) {
 
 function RegisterEventListeners() {
     $("body").on("keydown", function(e){
-       e.preventDefault();
        switch(e.key)
        {
            case "ArrowUp":
-                   moveUp();
+               e.preventDefault();
+               moveUp();
                break;
            case "ArrowDown":
-                   moveDown();
+               e.preventDefault();
+               moveDown();
                break;
            case "ArrowRight":
-                   moveRight();
+               e.preventDefault();
+               moveRight();
                break;
            case "ArrowLeft":
-                   moveLeft();
+               e.preventDefault();
+               moveLeft();
                break;
            default:
                break;
@@ -308,8 +267,14 @@ function RegisterEventListeners() {
     });
 
     $("#showQtableBtn").on("click", function(){
-        console.log(QTable);
+        DisplayQtable();
     });
+
+    $("#playFuckBtn").on("click", function(){
+        PlayTheFuck();
+    });
+
+
 }
 
 function moveUp() {
@@ -352,6 +317,33 @@ function moveLeft() {
     }
 }
 
+function InitializeQTable() {
+    // Nothing, Fire, Trash and Wall (Burn, Break and Crash you freak! ;P)
+    var stateItems = ['N', 'F', 'T', 'W'];
+
+    // "UP_Value Right_Value Down_Value Left_Value"
+    var state = "";
+
+    QTable = {}
+
+    // Populate the table with all the possible values of states.
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            for (k = 0; k < 4; k++) {
+                for (l = 0; l < 4; l++) {
+                    state = stateItems[i] + stateItems[j] + stateItems[k] + stateItems[l];
+
+                    QTable[state] = {}
+                    QTable[state]['moveUp'] = 0.0
+                    QTable[state]['moveRight'] = 0.0
+                    QTable[state]['moveDown'] = 0.0
+                    QTable[state]['moveLeft'] = 0.0
+                }
+            }
+        }
+    }
+}
+
 function updateQTable(previousState, newState, action, immediateScore) {
     if (QTable[previousState] === undefined) {
         QTable[previousState] = {}
@@ -387,12 +379,10 @@ function updateQTable(previousState, newState, action, immediateScore) {
     }
 }
 
-
 var timer;
 
 function StartRandomExploration() {
     $("#episodeCount").val($("#episodeCount").val() - 1);
-    // console.log("QTable Items: " + Object.keys(QTable).length);
 
     count = 0
     if (timer != undefined) {
@@ -412,7 +402,7 @@ function StartRandomExploration() {
 }
 
 
-function  PlayTheFuck() {
+function PlayTheFuck() {
     if (timer != undefined) {
         clearTimeout(timer);
         timer = undefined;
@@ -421,11 +411,11 @@ function  PlayTheFuck() {
 
         var nextMove = getBestNextMove();//legalMoves[Math.floor(Math.random() * legalMoves.length)];
         window[nextMove]();
-        count++;
-        if (count == 1000) {
-            clearInterval(timer);
-            return;
-        }
+        // count++;
+        // if (count == 1000) {
+        //     clearInterval(timer);
+        //     return;
+        // }
     }, 1000);
 }
 
@@ -533,7 +523,7 @@ function getCurrentStateDic() {
         currentState.D = 'W'
     }
 
-    // currentState = [aboveRoomba, belowRoomba, rightOfRoomba, leftOfRoomba]
+    // currentState = [aboveRoomba, rightOfRoomba, belowRoomba, leftOfRoomba]
     return currentState;
 }
 
