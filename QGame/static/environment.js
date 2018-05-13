@@ -18,10 +18,17 @@ environmentConfig =
 
 rewards =
 {
-    anyMoveReward: -1,
+    anyMoveReward: -.35,
     dirtReward: +10,
     fireReward: -10,
     wallReward: -5
+}
+
+gameMode =
+{
+    "training": 0,
+    "playing-auto": 1,
+    "playing-manual": 2
 }
 
 timerInterval = 5;
@@ -192,8 +199,8 @@ function evaluateMove(action){
 
 function updateScoreboard(s)
 {
-    score = s;
-    $("#scoreHolder").html(s);
+    score = parseInt(s.toFixed());
+    $("#scoreHolder").html(score);
 }
 
 function RestartEpisode()
@@ -274,7 +281,15 @@ function RegisterEventListeners() {
         PlayTheFuck();
     });
 
+    $("#logControl").on("click", function(){
+        Console.toggleEnabled();
+    });
 
+    $("#reportConsole").on("mouseover", function(){
+        $("#logControl").css("visibility", "visible");
+    }).on("mouseout", function(){
+        $("#logControl").css("visibility", "hidden");
+    });
 }
 
 function moveUp() {
@@ -334,10 +349,10 @@ function InitializeQTable() {
                     state = stateItems[i] + stateItems[j] + stateItems[k] + stateItems[l];
 
                     QTable[state] = {}
-                    QTable[state]['moveUp'] = 0.0
-                    QTable[state]['moveRight'] = 0.0
-                    QTable[state]['moveDown'] = 0.0
-                    QTable[state]['moveLeft'] = 0.0
+                    if(stateItems[i] == 'W') QTable[state]['moveUp'] = rewards.wallReward; else QTable[state]['moveUp'] = 0.0;
+                    if(stateItems[j] == 'W') QTable[state]['moveRight'] = rewards.wallReward; else QTable[state]['moveRight'] = 0.0;
+                    if(stateItems[k] == 'W') QTable[state]['moveDown'] = rewards.wallReward; else QTable[state]['moveDown'] = 0.0;
+                    if(stateItems[l] == 'W') QTable[state]['moveLeft'] = rewards.wallReward; else QTable[state]['moveLeft'] = 0.0;
                 }
             }
         }
@@ -370,7 +385,7 @@ function updateQTable(previousState, newState, action, immediateScore) {
 
         //console.log("PrevState:" + previousState + " -- " + "NewState:" + newState + " -- " + "score:" + QScore)
 
-        QTable[previousState][action] = QScore;
+        QTable[previousState][action] = parseFloat(QScore.toFixed(3));
         //DisplayQtable();
     }
     else
@@ -384,7 +399,7 @@ var timer;
 function StartRandomExploration() {
     $("#episodeCount").val($("#episodeCount").val() - 1);
 
-    count = 0
+    //count = 0
     if (timer != undefined) {
         clearTimeout(timer);
         timer = undefined;
@@ -393,8 +408,8 @@ function StartRandomExploration() {
 
         var nextMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
         nextMove();
-        count++;
-        if (count == 1000) {
+      //  count++;
+        if ($("#episodeCount").val() == 0) {
             clearInterval(timer);
             return;
         }
@@ -403,6 +418,8 @@ function StartRandomExploration() {
 
 
 function PlayTheFuck() {
+    RestartEpisode();
+
     if (timer != undefined) {
         clearTimeout(timer);
         timer = undefined;
@@ -552,10 +569,18 @@ function getCurrentState() {
 }
 
 Console = {
+    isEnabled: true,
     writeLine: function(text)
     {
-        $("#reportConsole").prepend(text).prepend("<br>");
-        // $("#reportConsole").scrollTop($("#reportConsole").height())
+        if(this.isEnabled) {
+            $("#consoleCanvas").prepend(text).prepend("<br>");
+            // $("#reportConsole").scrollTop($("#reportConsole").height())
+        }
+    },
+    toggleEnabled: function()
+    {
+        this.isEnabled = !this.isEnabled;
+        $("#logControl").text(this.isEnabled? "Disable Logging" : "Enable Logging");
     }
 }
 

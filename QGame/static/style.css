@@ -84,5 +84,26 @@ html, body
     height:300px;
     font-size: 70%;
     font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace;
+    padding: 0px;
+}
+
+#logControl
+{
+    line-height:12px;
+    position: relative;
+    bottom: 0px;
+    float: right;
+    font-size: .9em;
+    padding:4px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+#consoleCanvas
+{
+    padding: 15px;
     overflow: scroll;
+    height:300px;
 }
