@@ -4,16 +4,16 @@
 
 gridConfig =
 {
-    width: 7,           // sq unit
-    height:5,           // sq unit
-    cellSize: 70,      // pixel
+    width: 4,           // sq unit
+    height:4,           // sq unit
+    cellSize: 100,      // pixel
     deadLine: 10        // agent's deadline in seconds or steps, not used yet
 }
 
 environmentConfig =
 {
-    numHazardCells: 8,
-    numTrashCells: 8
+    numHazardCells: 3,
+    numTrashCells: 5
 }
 
 rewards =
@@ -21,7 +21,7 @@ rewards =
     anyMoveReward: -.35,
     dirtReward: +10,
     fireReward: -10,
-    wallReward: -5
+    wallReward: -3
 }
 
 gameMode =
