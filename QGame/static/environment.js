@@ -273,6 +273,10 @@ function RegisterEventListeners() {
         StartRandomExploration();
     });
 
+    $("#showQtableBtn").on("mouseover", function(){
+        UpdateModalQtable();
+    });
+
     $("#showQtableBtn").on("click", function(){
         DisplayQtable();
     });
@@ -415,7 +419,6 @@ function StartRandomExploration() {
         }
     }, timerInterval);
 }
-
 
 function PlayTheFuck() {
     RestartEpisode();
@@ -582,6 +585,40 @@ Console = {
         this.isEnabled = !this.isEnabled;
         $("#logControl").text(this.isEnabled? "Disable Logging" : "Enable Logging");
     }
+}
+
+function UpdateModalQtable()
+{
+    console.log("Updating modal content");
+    var headerLabels = ['State', 'moveUp', 'moveRight', 'moveDown', 'moveLeft']
+    var actions = ['moveUp', 'moveRight', 'moveDown', 'moveLeft']
+
+    var QtableContent = document.createElement("table");
+    var headerRow = document.createElement("tr");
+
+    for(i in headerLabels) {
+        var headerCol = document.createElement("th");
+        $(headerRow).append(headerCol);
+        $(headerCol).html(headerLabels[i]);
+        $(QtableContent).append(headerRow);
+    }
+
+    for(state in QTable) {
+        var row = document.createElement("tr");
+        $(QtableContent).append(row);
+
+        var col = document.createElement("td");
+        $(row).append(col);
+        $(col).html(state);
+
+        for(action in actions) {
+            var col = document.createElement("td");
+            $(row).append(col);
+            $(col).html(QTable[state][actions[action]]);
+        }
+    }
+
+    $("#modal-Qtable").html(QtableContent);
 }
 
 function DisplayQtable() {

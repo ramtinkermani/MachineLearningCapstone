@@ -107,3 +107,20 @@ html, body
     overflow: scroll;
     height:300px;
 }
+
+
+.modal-body table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.modal-body td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.modal-body tr:nth-child(even) {
+    background-color: #dddddd;
+}
