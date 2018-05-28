@@ -21,7 +21,7 @@
 
 
                 <button class="btn btn-success" id="startRandomBtn">Start Exploration for </button>
-                <input type="number" id="episodeCount" value="1000"> times
+                <input type="number" id="episodeCount" value="3000"> times
 {#                <button class="btn btn-danger" id="stopRandomBtn">Stop Random Worker</button>#}
 {#                <button class="btn btn-success" id="stopExploreBtn">Interrupt</button>#}
 
@@ -32,7 +32,7 @@
 
                 <button class="btn btn-success" id="showQtableBtn" data-toggle="modal" data-target="#exampleModalLong">Show Q-Table</button>
 
-                <button class="btn btn-success" id="playFuckBtn">Start Exploitation</button>
+                <button class="btn btn-success" id="playQGameBtn" disabled title="Exploration/training should be completed before starting the game">Start Exploitation</button>
             </div>
 
             <div class="col-9">
@@ -68,7 +68,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+
           </div>
         </div>
       </div>

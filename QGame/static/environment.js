@@ -281,8 +281,8 @@ function RegisterEventListeners() {
         DisplayQtable();
     });
 
-    $("#playFuckBtn").on("click", function(){
-        PlayTheFuck();
+    $("#playQGameBtn").on("click", function(){
+        PlayTheQGame();
     });
 
     $("#logControl").on("click", function(){
@@ -412,15 +412,17 @@ function StartRandomExploration() {
 
         var nextMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
         nextMove();
-      //  count++;
+
         if ($("#episodeCount").val() == 0) {
+            // Done with Training ...
             clearInterval(timer);
+            $("#playQGameBtn").prop("disabled", false);
             return;
         }
     }, timerInterval);
 }
 
-function PlayTheFuck() {
+function PlayTheQGame() {
     RestartEpisode();
 
     if (timer != undefined) {
