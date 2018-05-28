@@ -1,1 +1,79 @@
-Home page
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Q-Game</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="QGame/static/style.css">
+    <script src="QGame/static/environment.js"></script>
+</head>
+<body>
+
+    <div class="container-fluid mainContainer">
+        <div class="row">
+
+            <div class="col-3 leftPanel">
+                <div class="btn btn-primary panelBar">
+                      Episode Score <span class="badge badge-light" id="scoreHolder">0</span>
+                </div>
+
+
+                <button class="btn btn-success" id="startRandomBtn">Start Exploration for </button>
+                <input type="number" id="episodeCount" value="3000"> times
+
+
+                <button class="btn btn-success" id="showQtableBtn" data-toggle="modal" data-target="#exampleModalLong">Show Q-Table</button>
+
+                <button class="btn btn-success" id="playQGameBtn" disabled title="Exploration/training should be completed before starting the game">Start Exploitation</button>
+            </div>
+
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-12" id="gameCanvas">
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col" id="reportConsole">
+                        <div class="" id="logControl">Disable Logging</div>
+                        <div class="" id="consoleCanvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Current QTable</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-Qtable">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        $(function(){
+            BuildEnvironment();
+        })
+    </script>
+
+</body>
+</html>
