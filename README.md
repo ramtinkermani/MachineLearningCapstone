@@ -25,7 +25,7 @@ To run this web-based application
 This is a web application and the whole training and playing is written in Javascript. The deployed application could be found at https://ramtinkermani.github.io/MachineLearningCapstone/.
 
 ### How to start the training (Exploration)
-By default the training run for 3000 epochs. This should be enough to optimally populate the Q-Table with almost all possible state-action pairs that the agent has experienced. This should take about 10 minutes to complete (depending on your machine's and browser's performance)
+By default the training run for 3000 epochs. This should be enough to optimally populate the Q-Table with almost all possible state-action pairs that the agent has experienced. This should take about 20 minutes to complete (depending on your machine's and browser's performance)
 
 ### How to start playing the game (Exploitation)
 After the training is done, the Start Exploitation button will be enables and you can click to start the game. If the robot gets stuck or you need to restart a new game, you can click on this button again.
