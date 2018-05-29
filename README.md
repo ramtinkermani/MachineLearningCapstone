@@ -4,6 +4,10 @@
 ### Introduction
 This is a basic planning game for a simulated vacuum cleaner robot in a simple grid environment. The purpose of the robot is to learn to efficiently (as fast as possible and with the highest received reward) collect all the Trash and avoid the Fire (Hazard) cells. 
 
+[![Watch the demo on youtube](https://ramtinkermani.github.io/MachineLearningCapstone/QGameVideoScreenshot.png)](https://www.youtube.com/watch?v=Y-lz429xREw)
+
+
+
 I've used Q-Learning which is a model-free algorithm for Reinforcement Learning (RL) to teach the robot how to achieve this goal. The main premise of RL is that it does not require us (Humans, if you will!) program the agent explicitly what to do or what not to do. The agent starts by playing the game and at each state picks a random action and as a result, ends up in a new state based on which we reward it. If the outcome is desirable (Collected Trash) the reward is positive and if it's undesirable, the reward is negative. Every run of the game is called an Episode and the rewards that are received based on the Action taken on each State, is used to update a table called the Q-Table. Q-Table is basically the memory of the learning agent about it's past experiences.
 
 This is how the agent (Robot) learns about its purpose and goal: by trial and error which is called the **Exploration phase**. Once the agent has sufficiently played the game and exhausted all the possible State/Action pairs, the Q-Table is ready to be *Exploited*, that's when we can start the actual game and that is called **Exploitation phase**.
