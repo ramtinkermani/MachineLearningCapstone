@@ -124,3 +124,16 @@ html, body
 .modal-body tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.guide
+{
+    height:500px !important;
+    width:100% !important;
+}
+
+.card-body
+{
+    padding-left:0px;
+    font-size: .8em;
+    overflow: scroll !important;
+}

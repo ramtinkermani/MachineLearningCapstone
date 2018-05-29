@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119900163-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-119900163-1');
+    </script>
+
     <meta charset="UTF-8">
     <title>The Q-Game</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="  crossorigin="anonymous"></script>
@@ -22,17 +32,49 @@
 
                 <button class="btn btn-success" id="startRandomBtn">Start Exploration for </button>
                 <input type="number" id="episodeCount" value="3000"> times
-{#                <button class="btn btn-danger" id="stopRandomBtn">Stop Random Worker</button>#}
-{#                <button class="btn btn-success" id="stopExploreBtn">Interrupt</button>#}
-
-
-{#                <button class="btn btn-success" id="startExploreBtn">Start Exploration</button>#}
-{#                <input type="text" id="episodeCount" value="1"> times#}
 
 
                 <button class="btn btn-success" id="showQtableBtn" data-toggle="modal" data-target="#exampleModalLong">Show Q-Table</button>
 
                 <button class="btn btn-success" id="playQGameBtn" disabled title="Exploration/training should be completed before starting the game">Start Exploitation</button>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card guide">
+                          <div class="card-header">
+                            Guide
+                          </div>
+                          <div class="card-body">
+                              <ul>
+                                <li>
+                                    The right panel has the main game grid and the left panel has the controls and basic stats about the score for each Episode. At the bottom you can see the Game Console which logs the states, actions and rewards received by the agent.
+                                </li>
+                                <li>
+                                    Click on "Start Exploration" button to run the training for 3000 episodes. at each run, based on the State, random Action taken and the awarded reward to the agent, the Q-Table entry is updated with a calculated immediate score.
+                                </li>
+                                <li>
+                                    Note) To speed up the training, it's recommended to disable Console logging (Move your mouse over the black console and you see a button on the right to toggle logging)
+                                </li>
+                                <li>
+                                    Once the training is done, you can click on "Start Exploitation". The agent starts playing the game utilizing the populated Q-Table.
+                                </li>
+                                <li>
+                                    Note) Some browsers (such as Google Chrome) do not allow the scripts to run while the browser tab is inactive. So if you start the training and switch to another tab, it may stop the training. Make sure you keep the tab open and always on top for the training to complete.
+                                </li>
+                                <li>
+                                    Click on the "Show Q-Table" to see the current Q-Table content
+                                </li>
+                                <li>
+                                    The States are interpreted as follows: A string containing 4 characters which represent the item on the Top, Right, Bottom and Left of the Robot. The Characters are N (Nothing), W (Wall), F (Fire), T(Trash). Of course the goal of the robot is to avoid the Fire and to some extent the walls (so it doesn't get stuck) and Collect the Trash (intentionally walk into the trash cells)
+                                </li>
+                            </ul>
+
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-9">
@@ -82,3 +124,5 @@
 
 </body>
 </html>
+
+
